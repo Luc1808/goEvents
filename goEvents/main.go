@@ -1,18 +1,20 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
 func main() {
-	r := gin.Default()
+	server := gin.Default()
 
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Server is running!",
-		})
-	})
-	r.GET("/events")
+	server.GET("/events", getEvents)
 
-	r.Run(":8080")
+	server.Run(":8080")
+}
+
+func getEvents(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"message": "Server running!"})
 }
