@@ -1,6 +1,8 @@
 package main
 
 import (
+	"Luc1808/goEvents/db"
+	"Luc1808/goEvents/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,13 +10,46 @@ import (
 )
 
 func main() {
+	db.InitDB()
 	server := gin.Default()
 
+	server.GET("/", isRunning)
 	server.GET("/events", getEvents)
+	server.POST("/event", createEvent)
 
 	server.Run(":8080")
 }
 
+func isRunning(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"message": "Server running."})
+}
+
 func getEvents(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"message": "Server running!"})
+	events, err := models.GetAllEvents()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Problems fetching the events."})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, events)
+}
+
+func createEvent(ctx *gin.Context) {
+	var event models.Event
+	err := ctx.ShouldBindJSON(&event)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not parse request data."})
+		return
+	}
+
+	event.ID = 1
+	event.UserId = 1
+
+	err = event.Save()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create event. Try again later", "error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{"message": "Event created", "event": event})
 }
