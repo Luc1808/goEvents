@@ -73,3 +73,14 @@ func (e Event) Update() error {
 
 	return nil
 }
+
+func (e Event) Delete() error {
+	query := `DELETE FROM events WHERE id = $1`
+
+	_, err := db.DB.Exec(query, e.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
