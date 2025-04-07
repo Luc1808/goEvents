@@ -2,7 +2,6 @@ package routes
 
 import (
 	"Luc1808/goEvents/models"
-	"Luc1808/goEvents/utils"
 	"net/http"
 	"strconv"
 
@@ -37,26 +36,14 @@ func getEvents(ctx *gin.Context) {
 }
 
 func createEvent(ctx *gin.Context) {
-	token := ctx.Request.Header.Get("Authorization")
-
-	if token == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"message": "User unauthorized."})
-		return
-	}
-
-	userId, err := utils.VerifyToken(token)
-	if err != nil {
-		ctx.JSON(http.StatusUnauthorized, gin.H{"message": "User unauthorized."})
-		return
-	}
-
 	var event models.Event
-	err = ctx.ShouldBindJSON(&event)
+	err := ctx.ShouldBindJSON(&event)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not parse request data."})
 		return
 	}
 
+	userId := ctx.GetInt64("userId")
 	event.UserId = userId
 
 	err = event.Save()
