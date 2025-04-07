@@ -2,6 +2,7 @@ package routes
 
 import (
 	"Luc1808/goEvents/models"
+	"Luc1808/goEvents/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -40,5 +41,11 @@ func login(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Login successful."})
+	token, err := utils.GenerateToken(user.Email, user.ID)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"message": "User is not authorized."})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Login successful.", "token": token})
 }

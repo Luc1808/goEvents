@@ -28,10 +28,10 @@ func (u *User) Save() error {
 }
 
 func (u *User) VerifyCredentials() error {
-	query := `SELECT password FROM users WHERE email = $1`
+	query := `SELECT id, password FROM users WHERE email = $1`
 
 	var retrievedPassword string
-	err := db.DB.QueryRow(query, u.Email).Scan(&retrievedPassword)
+	err := db.DB.QueryRow(query, u.Email).Scan(&u.ID, &retrievedPassword)
 	if err != nil {
 		return err
 	}
