@@ -98,9 +98,15 @@ func deleteEvent(ctx *gin.Context) {
 		return
 	}
 
+	userId := ctx.GetInt64("userId")
 	event, err := models.GetEventById(eventId)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Invalid ID."})
+		return
+	}
+
+	if event.UserId != userId {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"message": "User unauthorized."})
 		return
 	}
 
