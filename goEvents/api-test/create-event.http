@@ -1,8 +1,0 @@
-POST http://localhost:8080/events
-Content-Type: application/json
-
-{
-    "title": "Test event",
-    "description": "This is the first event",
-    "createdat": "2025-01-01T15:30:00.000Z"
-}

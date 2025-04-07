@@ -1,8 +1,0 @@
-PUT http://localhost:8080/events/2
-Content-Type: application/json
-
-{
-    "title": "Test event (UPDATE)",
-    "description": "This is the first event",
-    "createdat": "2025-01-01T15:30:00.000Z"
-}
