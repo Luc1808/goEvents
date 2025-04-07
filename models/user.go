@@ -1,6 +1,9 @@
 package models
 
-import "Luc1808/goEvents/db"
+import (
+	"Luc1808/goEvents/db"
+	"Luc1808/goEvents/utils"
+)
 
 type User struct {
 	ID       int64
@@ -11,7 +14,12 @@ type User struct {
 func (u *User) Save() error {
 	query := `INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id`
 
-	err := db.DB.QueryRow(query, u.Email, u.Password).Scan(&u.ID)
+	hashPassword, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return err
+	}
+
+	err = db.DB.QueryRow(query, u.Email, hashPassword).Scan(&u.ID)
 	if err != nil {
 		return err
 	}
