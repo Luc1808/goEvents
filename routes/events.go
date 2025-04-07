@@ -11,7 +11,7 @@ import (
 func getEvent(ctx *gin.Context) {
 	eventId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Could not fetch the event."})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "ID was not found."})
 		return
 	}
 

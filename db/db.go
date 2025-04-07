@@ -19,15 +19,28 @@ func InitDB() {
 
 func createTables() {
 	_, err := DB.Exec(`
+		CREATE TABLE IF NOT EXISTS users (
+			id SERIAL PRIMARY KEY, 
+			email VARCHAR(50) NOT NULL UNIQUE,
+			password TEXT NOT NULL
+		);
+	`)
+	if err != nil {
+		panic("Could not create the DB table users.")
+	}
+
+	_, err = DB.Exec(`
 			CREATE TABLE IF NOT EXISTS events (
 				id SERIAL PRIMARY KEY,
 				title VARCHAR(45),
 				description TEXT,
 				createdAt TIMESTAMP NOT NULL,
-				user_id INTEGER NOT NULL
+				user_id INTEGER NOT NULL,
+				FOREIGN KEY (user_id) REFERENCES users (id)
 			);
 		`)
 	if err != nil {
-		panic("Could not create the DB table.")
+		panic("Could not create the DB table events.")
 	}
+
 }
