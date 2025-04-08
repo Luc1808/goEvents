@@ -1,9 +1,9 @@
 POST http://localhost:8080/events
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiZXhwIjoxNzQ0MDY0MTYyLCJ1c2VySWQiOjF9.LqUy8M7obB8y5_6SF2x53TAZt7XTuUsKG-rCUhQC3dk
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QyQGdtYWlsLmNvbSIsImV4cCI6MTc0NDExNDgzMiwidXNlcklkIjoyfQ.4XE96kJ5jPCCTbR_qJLV7_ztw7i8g_fKb6ZkPNGUm34
 
 {
-    "title": "Test event with user 1 ID",
-    "description": "This is an event",
+    "title": "Test event with user 2 ID",
+    "description": "This is an event 2",
     "createdat": "2025-01-01T15:30:00.000Z"
 }
